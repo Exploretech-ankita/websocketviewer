@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP32 IP Viewer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div style="padding-top: 80px;">
+<h2>ESP32 IP Address View</h2>
+
+<div class="ip-container">
+    <span>IP Address</span> 
+    <div id="ip1" class="ip-box">192</div>
+    <div id="ip2" class="ip-box">168</div>
+    <div id="ip3" class="ip-box">1</div>
+    <div id="ip4" class="ip-box">107</div> <!-- default last octet -->
+</div>
+<br>
+<br>
+<div class="status-box-container">
+ <span>Connection Status</span> 
+<div id="status" class="status-box">Disconnected</div>
+</div>
+<br>
+<br>
+<div class="status-box-container">
+ <span>IP port</span> 
+    <div id="port" class="status-box">80</div>
+</div>
+<br>
+<br>
+<div class="link-container">
+    <span>Esp web Link</span>
+    <a id="espLink" href="http://192.168.1.107:80/" target="_blank">http://192.168.1.107:80/</a>
+</div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

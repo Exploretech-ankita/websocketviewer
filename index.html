@@ -10,30 +10,46 @@
 
 <div class="ip-container">
     <span>IP Address</span> 
-    <div id="ip1" class="ip-box">192</div>
-    <div id="ip2" class="ip-box">168</div>
-    <div id="ip3" class="ip-box">1</div>
-    <div id="ip4" class="ip-box">107</div> <!-- default last octet -->
+    <input id="ip1" class="ip-box" value="192">
+    <input id="ip2" class="ip-box" value="168">
+    <input id="ip3" class="ip-box" value="1">
+    <input id="ip4" class="ip-box" value="107">
 </div>
-<br>
-<br>
-<div class="status-box-container">
+
+<br><br>
+
+<div class="status-box-container" >
  <span>Connection Status</span> 
-<div id="status" class="status-box">Disconnected</div>
+ <div id="status" class="status-box" style="background: rgb(170, 170, 170);">Disconnected</div>
 </div>
-<br>
-<br>
-<div class="status-box-container">
- <span>IP port</span> 
-    <div id="port" class="status-box">81</div>
+
+<br><br>
+
+<div class="status-box-container" >
+ <span>IP Port</span> 
+ <input id="port" class="status-box" value="81" style="background: white;">
 </div>
-<br>
-<br>
+
+<br><br>
+
 <div class="link-container">
-    <span>Esp web Link</span>
-    <a id="espLink" href="ws://192.168.1.107:81" target="_blank">ws://192.168.1.107:81</a>
+    <span>ESP WebSocket Link</span>
+    <input id="espLink" class="status-box" value="ws://192.168.1.107:81" style="background: white;">
 </div>
+
+<br><br>
+
+<button id="fetchBtn" class="fetchBtn-box">Fetch </button>
+
+<br><br>
+
+<div class="status-box-container">
+ <span>Fetched Address</span> 
+ <div id="fetchedIP" class="status-box" style="background-color: white;">---</div>
 </div>
+
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>

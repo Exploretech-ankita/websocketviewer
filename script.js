@@ -8,7 +8,7 @@ function getWSUrl() {
     const ip4 = document.getElementById("ip4").value;
     const port = document.getElementById("port").value;
 
-    const url = `ws://${ip1}.${ip2}.${ip3}.${ip4}:${port}/`;
+    const url = `wss://${ip1}.${ip2}.${ip3}.${ip4}:${port}/`;
     document.getElementById("espLink").value = url;
     return url;
 }

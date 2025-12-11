@@ -17,7 +17,7 @@ document.getElementById("status").innerHTML = "Disconnected";
 
 // Display link
 function updateWSLink(lastOctet, port) {
-    const link = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${lastOctet}:${port}/ws`;
+    const link = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${lastOctet}:${port}`;
     document.getElementById("espLink").href = link;
     document.getElementById("espLink").innerHTML = link;
 }
@@ -30,7 +30,7 @@ function connectWS() {
 
     // use current values (not only default)
     const last = document.getElementById("ip4").innerHTML;
-    const wsURL = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${last}:${WS_PORT}/ws`;
+    const wsURL = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${last}:${WS_PORT}`;
 
     const socket = new WebSocket(wsURL);
 

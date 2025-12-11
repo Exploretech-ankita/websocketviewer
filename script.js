@@ -1,74 +1,57 @@
-// -----------------------------
-// Fixed IP parts and defaults
-// -----------------------------
-const FIXED1 = "192";
-const FIXED2 = "168";
-const FIXED3 = "1";
-const DEFAULT_LAST = "107";
-let WS_PORT = 81;
+let ws;
 
-// Show default IP
-document.getElementById("ip1").innerHTML = FIXED1;
-document.getElementById("ip2").innerHTML = FIXED2;
-document.getElementById("ip3").innerHTML = FIXED3;
-document.getElementById("ip4").innerHTML = DEFAULT_LAST;
+// Build websocket URL from editable input boxes
+function getWSUrl() {
+    const ip1 = document.getElementById("ip1").value;
+    const ip2 = document.getElementById("ip2").value;
+    const ip3 = document.getElementById("ip3").value;
+    const ip4 = document.getElementById("ip4").value;
+    const port = document.getElementById("port").value;
 
-document.getElementById("status").innerHTML = "Disconnected";
-
-// Display link
-function updateWSLink(lastOctet, port) {
-    const link = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${lastOctet}:${port}`;
-    document.getElementById("espLink").href = link;
-    document.getElementById("espLink").innerHTML = link;
+    const url = `ws://${ip1}.${ip2}.${ip3}.${ip4}:${port}`;
+    document.getElementById("espLink").value = url;
+    return url;
 }
-updateWSLink(DEFAULT_LAST, WS_PORT);
 
-// -----------------------------
-// WebSocket Connect
-// -----------------------------
-function connectWS() {
+// Connect WebSocket
+function connectWebSocket() {
+    const url = getWSUrl();
+    ws = new WebSocket(url);
 
-    // use current values (not only default)
-    const last = document.getElementById("ip4").innerHTML;
-    const wsURL = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${last}:${WS_PORT}`;
-
-    const socket = new WebSocket(wsURL);
-
-    socket.onopen = () => {
-        document.getElementById("status").innerHTML = "Connected";
-        console.log("Connected:", wsURL);
+    ws.onopen = () => {
+        document.getElementById("status").innerText = "Connected";
+        document.getElementById("status").style.background = "lightgreen";
+        console.log("Connected to", url);
     };
 
-    socket.onmessage = (event) => {
-        let data;
-        try {
-            data = JSON.parse(event.data);
-        } catch {
-            console.log("Non-JSON:", event.data);
-            return;
+    ws.onclose = () => {
+        document.getElementById("status").innerText = "Disconnected";
+        document.getElementById("status").style.background = "salmon";
+    };
+
+    ws.onerror = () => {
+        document.getElementById("status").innerText = "Error";
+        document.getElementById("status").style.background = "orange";
+    };
+
+    ws.onmessage = (msg) => {
+        console.log("Received:", msg.data);
+
+        if (msg.data.startsWith("IP:")) {
+            const ip = msg.data.replace("IP:", "");
+            document.getElementById("fetchedIP").innerText = ip;
         }
-
-        if (data.ip_last)
-            document.getElementById("ip4").innerHTML = data.ip_last;
-
-        if (data.ws_port)
-            WS_PORT = data.ws_port;
-
-        updateWSLink(
-            data.ip_last || document.getElementById("ip4").innerHTML,
-            WS_PORT
-        );
-    };
-
-    socket.onclose = () => {
-        document.getElementById("status").innerHTML = "Disconnected";
-
-        setTimeout(connectWS, 1500); // auto reconnect
-    };
-
-    socket.onerror = () => {
-        document.getElementById("status").innerHTML = "Error";
     };
 }
 
-connectWS();
+// Button event for fetching IP
+document.getElementById("fetchBtn").addEventListener("click", () => {
+    if (!ws || ws.readyState !== WebSocket.OPEN) {
+        connectWebSocket();
+        setTimeout(() => {
+            if (ws.readyState === WebSocket.OPEN) ws.send("GET_IP");
+        }, 500);
+    } else {
+        ws.send("GET_IP");
+    }
+});

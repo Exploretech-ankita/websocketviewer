@@ -1,62 +1,74 @@
 // -----------------------------
-// Fixed IP parts and default values
+// Fixed IP parts and defaults
 // -----------------------------
 const FIXED1 = "192";
 const FIXED2 = "168";
 const FIXED3 = "1";
 const DEFAULT_LAST = "107";
-const DEFAULT_PORT = "80";
+let WS_PORT = 81;
 
-// Initialize UI
+// Show default IP
 document.getElementById("ip1").innerHTML = FIXED1;
 document.getElementById("ip2").innerHTML = FIXED2;
 document.getElementById("ip3").innerHTML = FIXED3;
 document.getElementById("ip4").innerHTML = DEFAULT_LAST;
+
 document.getElementById("status").innerHTML = "Disconnected";
-document.getElementById("port").innerHTML =  DEFAULT_PORT;
-document.getElementById("espLink").href = `http://${FIXED1}.${FIXED2}.${FIXED3}.${DEFAULT_LAST}:${DEFAULT_PORT}/`;
+
+// Display link
+function updateWSLink(lastOctet, port) {
+    const link = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${lastOctet}:${port}/ws`;
+    document.getElementById("espLink").href = link;
+    document.getElementById("espLink").innerHTML = link;
+}
+updateWSLink(DEFAULT_LAST, WS_PORT);
 
 // -----------------------------
-// Connect WebSocket to ESP32
+// WebSocket Connect
 // -----------------------------
-const WS_PORT = 80; // ESP32 WebSocket port
-const socket = new WebSocket(`ws://${FIXED1}.${FIXED2}.${FIXED3}.107:${WS_PORT}/ws`);
+function connectWS() {
 
-// When WebSocket opens
-socket.onopen = () => {
-    document.getElementById("status").innerHTML = "Connected";
-    console.log("Connected to ESP32 WebSocket");
-};
+    // use current values (not only default)
+    const last = document.getElementById("ip4").innerHTML;
+    const wsURL = `ws://${FIXED1}.${FIXED2}.${FIXED3}.${last}:${WS_PORT}/ws`;
 
-// When a message arrives (ESP32 sends last octet)
-socket.onmessage = (event) => {
-    let data = JSON.parse(event.data);
+    const socket = new WebSocket(wsURL);
 
-    if (data.ip_last) {
-        document.getElementById("ip4").innerHTML = data.ip_last;
-    }
-    if (data.http_port) {
-        document.getElementById("port").innerHTML = data.http_port;
-    }
+    socket.onopen = () => {
+        document.getElementById("status").innerHTML = "Connected";
+        console.log("Connected:", wsURL);
+    };
 
-    // Update clickable link dynamically
-    const last = data.ip_last || DEFAULT_LAST;
-    const port = data.http_port || DEFAULT_PORT;
-    document.getElementById("espLink").href = `http://${FIXED1}.${FIXED2}.${FIXED3}.${last}:${port}/`;
-    document.getElementById("espLink").innerHTML = document.getElementById("espLink").href;
-};
+    socket.onmessage = (event) => {
+        let data;
+        try {
+            data = JSON.parse(event.data);
+        } catch {
+            console.log("Non-JSON:", event.data);
+            return;
+        }
 
+        if (data.ip_last)
+            document.getElementById("ip4").innerHTML = data.ip_last;
 
-// When WebSocket closes
-socket.onclose = () => {
-    document.getElementById("status").innerHTML = "Disconnected";
-    document.getElementById("ip4").innerHTML = DEFAULT_LAST;
-    document.getElementById("espLink").href =
-    `http://${FIXED1}.${FIXED2}.${FIXED3}.${DEFAULT_LAST}:${DEFAULT_PORT}/`;
-document.getElementById("espLink").innerHTML =
-    `http://${FIXED1}.${FIXED2}.${FIXED3}.${DEFAULT_LAST}:${DEFAULT_PORT}/`;
-};
-socket.onerror = (err) => {
-    console.log("WebSocket error:", err);
-    document.getElementById("status").innerHTML = "Disconnected";
-};
+        if (data.ws_port)
+            WS_PORT = data.ws_port;
+
+        updateWSLink(
+            data.ip_last || document.getElementById("ip4").innerHTML,
+            WS_PORT
+        );
+    };
+
+    socket.onclose = () => {
+        document.getElementById("status").innerHTML = "Disconnected";
+
+        setTimeout(connectWS, 1500); // auto reconnect
+    };
+
+    socket.onerror = () => {
+        document.getElementById("status").innerHTML = "Error";
+    };
+}
+
+connectWS();

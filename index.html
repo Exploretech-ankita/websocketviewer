@@ -5,48 +5,59 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div style="padding-top: 80px;">
-<h2>ESP32 IP Address View</h2>
+<div style="padding-top: 50px;">
 
-<div class="ip-container">
-    <span>IP Address</span> 
-    <input id="ip1" class="ip-box" value="192">
-    <input id="ip2" class="ip-box" value="168">
-    <input id="ip3" class="ip-box" value="1">
-    <input id="ip4" class="ip-box" value="107">
-</div>
+    <h2>ESP32 IP Address View</h2>
 
-<br><br>
+    <!-- IP Input Boxes -->
+    <div class="ip-container">
+        <span>IP Address</span> 
+        <input id="ip1" class="ip-box" value="192">
+        <input id="ip2" class="ip-box" value="168">
+        <input id="ip3" class="ip-box" value="1">
+        <input id="ip4" class="ip-box" value="107">
+    </div>
 
-<div class="status-box-container" >
- <span>Connection Status</span> 
- <div id="status" class="status-box" style="background: rgb(170, 170, 170);">Disconnected</div>
-</div>
+    <br><br>
 
-<br><br>
+    <!-- Connection Status -->
+    <div class="status-box-container">
+        <span>Connection Status</span> 
+        <div id="status" class="status-box" style="background: rgb(170, 170, 170);">Disconnected</div>
+    </div>
 
-<div class="status-box-container" >
- <span>IP Port</span> 
- <input id="port" class="status-box" value="81" style="background: white;">
-</div>
+    <br><br>
 
-<br><br>
+    <!-- Port Input -->
+    <div class="status-box-container">
+        <span>IP Port</span> 
+        <input id="port" class="status-box" value="81" style="background: white;">
+    </div>
 
-<div class="link-container">
-    <span>ESP WebSocket Link</span>
-    <input id="espLink" class="status-box" value="ws://192.168.1.107:81" style="background: white;">
-</div>
+    <br><br>
 
-<br><br>
+    <!-- WebSocket Link -->
+    <div class="link-container">
+        <span>ESP WebSocket Link</span>
+        <input id="espLink" class="status-box" value="ws://192.168.1.107:81" style="background: white;">
+    </div>
 
-<button id="fetchBtn" class="fetchBtn-box">Fetch </button>
+    <br><br>
 
-<br><br>
+    <!-- Fetch Button -->
+    <div id="fetch_container">
+        <div id="fetchedIP" style="margin-top:10px;font-weight:bold;background-color: cornsilk;">---</div>
+    <br><br>
+     <button id="fetchBtn" class="fetchBtn-box">Fetch</button>
 
-<div class="status-box-container">
- <span>Fetched Address</span> 
- <div id="fetchedIP" class="status-box" style="background-color: white;">---</div>
-</div>
+       </div>
+    <br><br>
+
+    <!-- QR Code -->
+    <div>
+        <h3>Scan QR to open in phone:</h3>
+        <img id="qrImg" src="" alt="QR Code">
+    </div>
 
 </div>
 

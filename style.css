@@ -1,87 +1,103 @@
-body
-{
-
+body {
     font-family: Arial, sans-serif;
     background: #7c7c7c;
     padding: 20px;
     display: flex;
     justify-content: center;
 }
-.ip-container 
-{
+
+.ip-container {
     display: flex;
     gap: 10px;
     margin-top: 20px;
     align-items: center;
 }
 
-        .ip-box {
-            width: 70px;
-            padding: 10px;
-            background: white;
-            font-size: 22px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 0 5px #ccc;
-        }
+.ip-box {
+    width: 70px;
+    padding: 10px;
+    background: white;
+    font-size: 22px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #ccc;
+}
 
-        .status-box {
-            margin-left: 20px;
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 5px;
-            width:150px;
-            height: 30px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 0 5px #ccc;
-            
-        }
-        .status-box-container{
-            width:200px;
-            height: 50px;
-            display: flex;
-           
-            
-        }
+.status-box {
+    margin-left: 20px;
+    padding: 10px;
+    font-size: 18px;
+    border-radius: 8px;
+    width: 150px;
+    height: 30px;
+    text-align: center;
+    box-shadow: 0 0 5px #ccc;
+}
 
-        #port
-        {
-            margin-left: 75px;
-            padding: 10px;
-    
-        }
+.status-box-container {
+    width: 200px;
+    height: 50px;
+    display: flex;
+}
 
-        .link-container {
-            margin-top: 20px;
-        }
+#port {
+    margin-left: 75px;
+    padding: 10px;
+}
 
-        a {
-            font-size: 20px;
-            text-decoration: none;
-            color: #fff;
-            background: #404140;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
+.link-container {
+    margin-top: 20px;
+}
 
-        a:hover {
-            background: #1e1f1e;
-        }
-        span
-        {
-            width:90px;
-            color: #020202;
-            font-weight: bolder;
-            font-size: large;
-        }
-        .fetchBtn-box
-        {
-            width: 70px;
-            height: 50px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 0 5px #ccc;
-            margin-left: 400px;
-        }
-   
+a {
+    font-size: 20px;
+    text-decoration: none;
+    color: #fff;
+    background: #404140;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+a:hover {
+    background: #1e1f1e;
+}
+
+span {
+    width: 90px;
+    color: #020202;
+    font-weight: bolder;
+    font-size: large;
+}
+
+.fetchBtn-box {
+    width: 70px;
+    height: 50px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #ccc;
+    margin-left: 0px;
+    margin-top: 10px;
+}
+#fetchedIP
+{
+    margin-top:10px;
+    font-weight:bold;
+    background-color: cornsilk;
+    height: 50px;
+    width: 200px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #eeebeb;
+    border-color: #1e1f1e;
+    border-width: 1px;
+    border-style: solid;
+    margin-right: 50px;
+
+}
+#fetch_container
+{
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    width: 400px;
+}
